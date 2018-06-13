@@ -45,7 +45,8 @@ namespace HtmlLabel.Forms.Plugin.UWP
 			         e.PropertyName == Label.FontFamilyProperty.PropertyName ||
 			         e.PropertyName == Label.FontSizeProperty.PropertyName ||
 			         e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
-			         e.PropertyName == Label.TextColorProperty.PropertyName)
+			         e.PropertyName == Label.TextColorProperty.PropertyName ||
+					 e.PropertyName == LabelHtml.ExtendedHorizontalTextAlignmentProperty.PropertyName)
 				UpdateText();
 		}
 
@@ -126,7 +127,15 @@ namespace HtmlLabel.Forms.Plugin.UWP
 			var text = AssociatedObject.Text;
 
 			// Just incase we are not given text with elements.
-			var modifiedText = string.Format("<div>{0}</div>", text);
+			string modifiedText;
+			if (text.StartsWith("<div"))
+			{
+				modifiedText = text;
+			}
+			else
+			{
+				modifiedText = string.Format("<div>{0}</div>", text);
+			}
 			modifiedText = Regex.Replace(modifiedText, "<br>", "<br></br>", RegexOptions.IgnoreCase);
 			// reset the text because we will add to it.
 			AssociatedObject.Inlines.Clear();
@@ -134,6 +143,24 @@ namespace HtmlLabel.Forms.Plugin.UWP
 			{
 				var element = XElement.Parse(modifiedText);
 				ParseText(element, AssociatedObject.Inlines, _label);
+
+				var textAlignment = Windows.UI.Xaml.TextAlignment.Start;
+				switch (_label.ExtendedHorizontalTextAlignment)
+				{
+					case ExtendedHorizontalTextAlignment.Center:
+						textAlignment = Windows.UI.Xaml.TextAlignment.Center;
+						break;
+
+					case ExtendedHorizontalTextAlignment.End:
+						textAlignment = Windows.UI.Xaml.TextAlignment.End;
+						break;
+
+					case ExtendedHorizontalTextAlignment.Justify:
+						textAlignment = Windows.UI.Xaml.TextAlignment.Justify;
+						break;
+				}
+				AssociatedObject.HorizontalAlignment = HorizontalAlignment.Stretch;
+				AssociatedObject.TextAlignment = textAlignment;
 			}
 			catch (Exception)
 			{

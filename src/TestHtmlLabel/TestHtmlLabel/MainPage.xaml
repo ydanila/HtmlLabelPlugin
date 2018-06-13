@@ -6,7 +6,10 @@
              x:Class="TestHtmlLabel.MainPage">
 
     <StackLayout>
-    	<abstractions:LabelHtml x:Name="HomeLabel" />
+		<abstractions:LabelHtml x:Name="LeftLabel" ExtendedHorizontalTextAlignment="Start"/>
+		<abstractions:LabelHtml x:Name="CenterLabel" ExtendedHorizontalTextAlignment="Center"/>
+		<abstractions:LabelHtml x:Name="RightLabel" ExtendedHorizontalTextAlignment="End"/>
+		<abstractions:LabelHtml x:Name="JustifyLabel" ExtendedHorizontalTextAlignment="Justify"/>
     </StackLayout>
 
 </ContentPage>

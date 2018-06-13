@@ -46,7 +46,8 @@ namespace HtmlLabel.Forms.Plugin.Droid
 					 e.PropertyName == Label.FontFamilyProperty.PropertyName ||
 					 e.PropertyName == Label.FontSizeProperty.PropertyName ||
 					 e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
-					 e.PropertyName == Label.TextColorProperty.PropertyName)
+					 e.PropertyName == Label.TextColorProperty.PropertyName ||
+					 e.PropertyName == LabelHtml.ExtendedHorizontalTextAlignmentProperty.PropertyName)
 				UpdateText();
 		}
 

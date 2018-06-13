@@ -41,14 +41,15 @@ namespace HtmlLabel.Forms.Plugin.iOS
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			base.OnElementPropertyChanged(sender, e);
-			if (e.PropertyName == HtmlLabel.Forms.Plugin.Abstractions.LabelHtml.MaxLinesProperty.PropertyName)
+			if (e.PropertyName == LabelHtml.MaxLinesProperty.PropertyName)
 				UpdateMaxLines();
 			else if (e.PropertyName == Label.TextProperty.PropertyName ||
 				e.PropertyName == Label.FontAttributesProperty.PropertyName ||
 				e.PropertyName == Label.FontFamilyProperty.PropertyName ||
 				e.PropertyName == Label.FontSizeProperty.PropertyName ||
-				e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName ||
-				e.PropertyName == Label.TextColorProperty.PropertyName)
+				e.PropertyName == Label.HorizontalTextAlignmentProperty.PropertyName  ||
+				e.PropertyName == Label.TextColorProperty.PropertyName ||
+				e.PropertyName == LabelHtml.ExtendedHorizontalTextAlignmentProperty.PropertyName)
 				UpdateText();
 		}
 

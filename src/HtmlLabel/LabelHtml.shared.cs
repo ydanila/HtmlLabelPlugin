@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 using Xamarin.Forms;
 
@@ -13,7 +14,13 @@ namespace HtmlLabel.Forms.Plugin.Abstractions
 	    public static readonly BindableProperty MaxLinesProperty =
 		    BindableProperty.CreateAttached("MaxLines", typeof(int), typeof(LabelHtml), default(int));
 
-	    public static int GetMaxLines(BindableObject view)
+		/// <summary>
+		/// ExtendedHorizontalTextAlignment property for the label
+		/// </summary>
+		public static readonly BindableProperty ExtendedHorizontalTextAlignmentProperty =
+			BindableProperty.CreateAttached("ExtendedHorizontalTextAlignment", typeof(ExtendedHorizontalTextAlignment), typeof(LabelHtml), default(ExtendedHorizontalTextAlignment));
+
+		public static int GetMaxLines(BindableObject view)
 	    {
 		    if (view == null) return default(int);
 		    return (int)view.GetValue(MaxLinesProperty);
@@ -22,6 +29,17 @@ namespace HtmlLabel.Forms.Plugin.Abstractions
 		public static void SetMaxLines(BindableObject view, int value)
 		{
 			view?.SetValue(MaxLinesProperty, value);
+		}
+
+		public static ExtendedHorizontalTextAlignment GetExtendedHorizontalTextAlignment(BindableObject view)
+	    {
+		    if (view == null) return default(ExtendedHorizontalTextAlignment);
+		    return (ExtendedHorizontalTextAlignment)view.GetValue(ExtendedHorizontalTextAlignmentProperty);
+	    }
+
+		public static void SetExtendedHorizontalTextAlignment(BindableObject view, ExtendedHorizontalTextAlignment value)
+		{
+			view?.SetValue(ExtendedHorizontalTextAlignmentProperty, value);
 		}
 
 		/// <summary>
@@ -41,6 +59,12 @@ namespace HtmlLabel.Forms.Plugin.Abstractions
 	    {
 		    Navigated?.Invoke(this, args);
 	    }
+
+		public ExtendedHorizontalTextAlignment ExtendedHorizontalTextAlignment
+		{
+			get { return GetExtendedHorizontalTextAlignment(this); }
+			set { SetExtendedHorizontalTextAlignment(this, value); }
+		}
 
 		/// <summary>
 		/// Fires before the open URL request is done.
@@ -105,14 +129,18 @@ namespace HtmlLabel.Forms.Plugin.Abstractions
 
 		private void SetHorizontalTextAlign()
 		{
-			if (_label.HorizontalTextAlignment == TextAlignment.Start) return;
-			switch (_label.HorizontalTextAlignment)
+			var labelHtml = ((LabelHtml)_label);
+			if (labelHtml.ExtendedHorizontalTextAlignment == ExtendedHorizontalTextAlignment.Start) return;
+			switch (labelHtml.ExtendedHorizontalTextAlignment)
 			{
-				case TextAlignment.Center:
+				case ExtendedHorizontalTextAlignment.Center:
 					_builder.Append("text-align: center; ");
 					break;
-				case TextAlignment.End:
+				case ExtendedHorizontalTextAlignment.End:
 					_builder.Append("text-align: right; ");
+					break;
+				case ExtendedHorizontalTextAlignment.Justify:
+					_builder.Append("text-align: justify; ");
 					break;
 			}
 		}
